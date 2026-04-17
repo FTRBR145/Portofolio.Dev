@@ -1,71 +1,132 @@
-var typed = new Typed(".typing", {
-    strings: ["Student", "Programmer", "Otaku", "Gamer", "Human", "Genius"],
-    typeSpeed: 120,
-    backSpeed: 100,
-    loop: true
-});
+document.addEventListener('DOMContentLoaded', () => {
 
-var typed = new Typed(".typing-2", {
-    strings: ["Fatir Syaiful Bahri"],
-    typeSpeed: 100,
-    backSpeed: 20,
-    loop: true
-})
+    /* ==========================================
+       1. Mobile Menu Toggle
+       ========================================== */
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mobileMenu = document.querySelector('.mobile-menu');
 
-$(window).scroll(function(){
-    // sticky navbar on scroll script
-    if(this.scrollY > 20){
-        $('.navbar').addClass("sticky");
-    }else{
-        $('.navbar').removeClass("sticky");
-    }
-    
-    // scroll-up button show/hide script
-    if(this.scrollY > 500){
-        $('.scroll-up-btn').addClass("show");
-    }else{
-        $('.scroll-up-btn').removeClass("show");
-    }
-});
-
-// slide-up script
-$('.scroll-up-btn').click(function(){
-    $('html').animate({scrollTop: 0});
-    // removing smooth scroll on slide-up button click
-    $('html').css("scrollBehavior", "auto");
-});
-
-$('.navbar .menu li a').click(function(){
-    // applying again smooth scroll on menu items click
-    $('html').css("scrollBehavior", "smooth");
-});
- // toggle menu/navbar script
- $('.menu-btn').click(function(){
-    $('.navbar .menu').toggleClass("active");
-    $('.menu-btn i').toggleClass("active");
-});
-    // carousel script
-$('.carousel').owlCarousel({
-    margin: 20,
-    loop: true,
-    autoplay: true,          // aktifin auto scroll
-    autoplayTimeout: 5000,   // delay antar scroll
-    autoplayHoverPause: true,
-    slideBy: 4,              // geser langsung 4 card
-    responsive: {
-        0:{
-            items: 1,
-            nav: false
-        },
-        600:{
-            items: 2,
-            nav: false
-        },
-        1000:{
-            items: 4,   // tampil 4 card di layar besar
-            nav: false
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('active');
+        const icon = menuToggle.querySelector('i');
+        if (mobileMenu.classList.contains('active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
         }
+    });
+
+    // Close mobile menu when link is clicked
+    const mobileLinks = document.querySelectorAll('.mobile-menu a');
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        });
+    });
+
+    /* ==========================================
+       2. Sticky Navbar & Scroll Effects
+       ========================================== */
+    const navbar = document.getElementById('navbar');
+    
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    /* ==========================================
+       3. Typed.js Initialization
+       ========================================== */
+    if (document.getElementById('typed-role')) {
+        new Typed('#typed-role', {
+            strings: ['Fullstack Web Developer', 'React & Node.js Enthusiast', 'Passionate Programmer'],
+            typeSpeed: 50,
+            backSpeed: 30,
+            backDelay: 2000,
+            loop: true
+        });
+    }
+
+    /* ==========================================
+       4. Scroll Reveal Animations (Intersection Observer)
+       ========================================== */
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const scrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('appear');
+                scrollObserver.unobserve(entry.target); // Optional: animate only once
+            }
+        });
+    }, observerOptions);
+
+    const animElements = document.querySelectorAll('.fade-in, .slide-left, .slide-up');
+    animElements.forEach(el => scrollObserver.observe(el));
+
+    /* ==========================================
+       5. Simple Canvas Background (Particles/Stars)
+       ========================================== */
+    const canvas = document.getElementById('bgCanvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initParticles();
+        }
+
+        function initParticles() {
+            particles = [];
+            const numParticles = Math.floor((width * height) / 15000);
+            for (let i = 0; i < numParticles; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 1.5,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    alpha: Math.random() * 0.5 + 0.1
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // Bounce off edges
+                if (p.x < 0 || p.x > width) p.vx *= -1;
+                if (p.y < 0 || p.y > height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
+                ctx.fill();
+            });
+
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        draw();
     }
 });
-
-
