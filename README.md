@@ -3,7 +3,7 @@
 Selamat datang di *repository* website portofolio pribadi saya! Website ini dirancang untuk menampilkan latar belakang pengalaman, kemampuan programming (*tech stack*), dan karya (*projects*) saya sebagai seorang Fullstack Web Developer, khususnya dalam ekosistem React dan Node.js.
 
 ## 🔗 Live Preview
-👉 **[Kunjungi Website Portofolio Saya](https://FTRBR145.github.io/Portofolio.Dev/)** *(Jika Anda menggunakan GitHub Pages)*
+👉 **[Kunjungi Website Portofolio Saya](https://FTRBR145.github.io/Portofolio.Dev/)**
 
 ---
 
