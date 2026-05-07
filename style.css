@@ -660,6 +660,7 @@ button {
 .border-cyan { border-color: rgba(34, 211, 238, 0.5); }
 .border-blue { border-color: rgba(59, 130, 246, 0.5); }
 .border-purple { border-color: rgba(168, 85, 247, 0.5); }
+.border-orange { border-color: rgba(249, 115, 22, 0.5); }
 
 /* ==========================================================================
    Certificates Section
